@@ -1,0 +1,104 @@
+
+    
+	<form *ngIf="searchExist">
+            <div class="form-group">
+                    <label class="control-label" for="nome">Digite um usuário</label>
+                    <input type="text" class="form-control" name="nome" 
+                            id="nome" [(ngModel)]='userTxt'>
+            </div>
+    
+            <hr />
+            <div class="form-group text-center">
+                    <button type="submit" class="btn btn-primary" (click)="Search()">
+                            Pesquisar
+                    </button>
+            </div>
+    </form>
+            <br />
+           
+
+    <div *ngIf="!searchExist" class="text-center">
+            <button type="submit" class="btn btn-primary" (click)="newSearch()">
+                Nova Pesquisa    
+            </button>
+    </div>
+
+   
+
+    <div *ngIf="userExist">
+        <h3>Busca pelo usuário: {{userTxt}}</h3>
+    </div>
+    <!--<lista *ngIf="userExist">Lista</lista> -->
+    <div *ngIf="userExist">
+        <table class='table'>
+            <thead>
+                <tr>
+                    <th>Nº de Seguidores</th>
+                    <th>Nº de Seguidos</th>
+                    <th *ngIf="user.email != null">Email</th>
+                    <th *ngIf="user.bio != null">Bio</th>
+                    <th>Imagem do Avatar</th>
+
+                </tr>
+            </thead>
+            <tbody>
+               <tr>
+                   <td>{{user.followers}}</td>
+                   <td>{{user.following}}</td>
+                   <td *ngIf="user.email != null">{{user.email}}</td>
+                   <td *ngIf="user.bio != null">{{user.bio}}</td>
+                   <td><img src="{{user.avatar_url}}" width="50" heigth="50"></td>
+               </tr>
+            </tbody> 
+        </table>    
+        <button class="btn btn-danger" (click)="repositoryList()">Repositórios</button>
+    </div>
+
+        <div *ngIf="reposExist">
+            <h3>Repositórios de {{user.login}}</h3>
+            <table class='table'>
+                <thead>
+                    <tr>
+                        <th>Nome do Repositório</th>
+                        <th>Nº de Estrelas</th>
+                        <th> <button class="btn btn-danger" (click)="changeOrderList()">Alterar Ordem</button></th>
+                    </tr>
+                </thead>
+                <tbody>
+                   <tr *ngFor='#rep of repos; #i = index'>
+                       <td>{{rep.name}}</td>
+                       <td>{{rep.stargazers_count}}</td>
+                   </tr>
+                </tbody> 
+            </table>   
+            <p>Ver Detalhes do Repositório com mais Estrelas</p>
+            <button class="btn btn-danger" (click)="DetailsOfRepository()">Detalhes</button>
+            
+        </div> 
+
+        <div *ngIf="repDetailsExist">
+            <table class='table'>
+                <thead>
+                    <tr>
+                        <th>Nome do Repositório</th>
+                        <th *ngIf="reposDetails.description != null">Descrição</th>
+                        <th>Nº de Estrelas</th>
+                        <th>Linguagem</th>
+                        <th>Link</th>
+                    </tr>
+                </thead>
+                <tbody>
+                   <tr>
+                       <td>{{reposDetails.name}}</td>
+                       <td *ngIf="reposDetails.description != null">{{reposDetails.description}}</td>
+                       <td>{{reposDetails.stargazers_count}}</td>
+                       <td>{{reposDetails.language}}</td>
+                       <td><a href="{{reposDetails.html_url}}">Link</a></td>
+                   </tr>
+                </tbody> 
+            </table>   
+        </div> 
+
+        <div class="alert alert-danger" role="alert" *ngIf="msgErro">
+            {{ msgErro }}
+        </div>
